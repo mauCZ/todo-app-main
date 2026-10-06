@@ -1,28 +1,15 @@
-function TaskList({ status, setStatus, children }) {
-    function handleOnClick(statusStr) {
-        setStatus(statusStr);
-    }
+import iconSun from '../assets/images/icon-sun.svg';
 
+function TaskList({ children }) {
     return (
-        <div className="w-lg border mx-auto z-1 relative">
-            <div className="flex flex-row justify-between bg-blue-900">
-                <h1>TODO</h1>
-                <button>Theme toggle</button>
+        <div className='w-xs mx-auto z-1 relative sm:w-lg top-20 '>
+            <div className='flex flex-row justify-between'>
+                <h1 className='text-4xl font-bold tracking-[0.8rem]'>TODO</h1>
+                <button className='hover:cursor-pointer'>
+                    <img src={iconSun} alt='' />
+                </button>
             </div>
-            <ul>
-                <div>
-                    <input type='checkbox' />
-                    <input type='text' />
-                </div>
-                {children}
-                <div>
-                    <p>X items left</p>
-                    <button onClick={() => handleOnClick('all')}>All</button>
-                    <button onClick={() => handleOnClick('active')}>Active</button>
-                    <button onClick={() => handleOnClick('completed')}>Completed</button>
-                    <button>Clear Completed</button>
-                </div>
-            </ul>
+            <ul>{children}</ul>
         </div>
     );
 }
