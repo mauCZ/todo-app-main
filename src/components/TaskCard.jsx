@@ -23,9 +23,16 @@ function TaskCard({ handleDeleteTask, id, status, desc, handleOnChangeTask }) {
             </p>
             <button
                 onClick={() => handleDeleteTask(id)}
-                className='cursor-pointer w-4 mr-6 transition duration-200 hover:scale-150'
+                className='group relative cursor-pointer w-3 mr-6 my-4'
             >
-                <img className='w-full' src={crossSvg} alt='' />
+                <img
+                    className='w-full group-hover:scale-150 transition delay-120'
+                    src={crossSvg}
+                    alt=''
+                />
+                <p className='border-none opacity-0 w-24 bg-gray-800 rounded-sm absolute bottom-full left-1/2 -translate-x-1/2 transition-opacity delay-120 duration-150 group-hover:opacity-100'>
+                    delete task
+                </p>
             </button>
         </div>
     );
