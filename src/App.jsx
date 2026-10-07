@@ -20,6 +20,10 @@ function App() {
         return tasks.filter((task) => task.status === filterStatus || status === 'all');
     }
 
+    function getTasksLeftToDo() {
+        return tasks.filter((task) => task.status === 'active').length;
+    }
+
     function handleOnclick(statusStr) {
         setStatus(statusStr);
     }
@@ -35,6 +39,15 @@ function App() {
                 : { ...task, status: task.status === 'completed' ? 'active' : 'completed' },
         );
         setTasks(newTasks);
+    }
+
+    function handleOnClickClearTasks() {
+        const newTasks = tasks.filter((task) => task.status === 'active');
+        setTasks(newTasks);
+    }
+
+    function handleDeleteTask(id) {
+        console.log(id);
     }
 
     useEffect(() => {
@@ -77,19 +90,25 @@ function App() {
                             key={task.id}
                             status={task.status}
                             desc={task.desc}
+                            handleDeleteTask={handleDeleteTask}
                         />
                     ))}
                 </div>
 
                 <div className='bg-blue-900 flex flex-row mb-6 relative border-t border-gray-700 rounded-b-sm'>
-                    <p className='text-center grow p-4 text-xs'>X items left</p>
+                    <p className='text-center grow p-4 text-xs'>
+                        {getTasksLeftToDo()} items left
+                    </p>
 
                     <TaskFilters
                         handleOnClick={(e) => handleOnclick(e)}
                         className='bg-blue-900 col-start-1 col-span-3 row-start-2 flex flex-row justify-center absolute top-20 w-full sm:relative sm:top-0 sm:w-50'
                     />
 
-                    <button className='grow p-4 col-start-3 text-center text-xs'>
+                    <button
+                        onClick={handleOnClickClearTasks}
+                        className='grow p-4 col-start-3 text-center text-xs cursor-pointer'
+                    >
                         Clear Completed
                     </button>
                 </div>

@@ -1,4 +1,6 @@
-function TaskCard({ id, status, desc, handleOnChangeTask }) {
+import crossSvg from '../assets/images/icon-cross.svg';
+
+function TaskCard({ handleDeleteTask, id, status, desc, handleOnChangeTask }) {
     return (
         <div className='flex flex-row'>
             <div className='w-16 flex justify-center items-center'>
@@ -9,7 +11,6 @@ function TaskCard({ id, status, desc, handleOnChangeTask }) {
                             ? 'appearance-none ring-1 ring-gray-600 cursor-pointer size-6 rounded-full bg-no-repeat bg-center'
                             : 'appearance-none ring-transparent cursor-pointer size-6 rounded-full bg-no-repeat bg-center bg-[url("assets/images/icon-check.svg"),linear-gradient(145deg,skyblue,purple)]'
                     }
-                    // className='appearance-none ring-1 ring-gray-600 cursor-pointer size-6 rounded-full bg-no-repeat bg-center checked:ring-transparent checked:bg-[url("assets/images/icon-check.svg"),linear-gradient(145deg,skyblue,purple)] '
                     type='checkbox'
                 />
             </div>
@@ -20,6 +21,12 @@ function TaskCard({ id, status, desc, handleOnChangeTask }) {
             >
                 {desc}
             </p>
+            <button
+                onClick={() => handleDeleteTask(id)}
+                className='cursor-pointer w-4 mr-6 transition duration-200 hover:scale-150'
+            >
+                <img className='w-full' src={crossSvg} alt='' />
+            </button>
         </div>
     );
 }
