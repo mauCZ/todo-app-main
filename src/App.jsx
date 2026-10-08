@@ -138,13 +138,14 @@ function App() {
                         </p>
 
                         <TaskFilters
+                            status={status}
                             handleOnClick={(e) => handleOnclick(e)}
                             className='bg-blue-900 col-start-1 col-span-3 row-start-2 flex flex-row justify-center absolute top-20 w-full sm:relative sm:top-0 sm:w-50'
                         />
 
                         <button
                             onClick={handleOnClickClearTasks}
-                            className='grow p-4 col-start-3 text-center text-xs cursor-pointer'
+                            className='grow p-4 col-start-3 text-center text-xs cursor-pointer hover:text-gray-400'
                         >
                             Clear Completed
                         </button>

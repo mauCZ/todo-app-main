@@ -3,7 +3,7 @@ import crossSvg from '../assets/images/icon-cross.svg';
 function TaskCard({ handleDeleteTask, id, status, desc, handleOnChangeTask }) {
     return (
         <div className='flex flex-row'>
-            <div className='w-16 flex justify-center items-center'>
+            <div className='peer w-16 flex justify-center items-center'>
                 <input
                     onChange={(e) => handleOnChangeTask(e, id)}
                     className={
@@ -24,7 +24,7 @@ function TaskCard({ handleDeleteTask, id, status, desc, handleOnChangeTask }) {
 
             <button
                 onClick={() => handleDeleteTask(id)}
-                className='group relative cursor-pointer w-3 mr-6 my-4'
+                className='peer-has-checked:hidden group relative cursor-pointer w-3 mr-6 my-4'
             >
                 <img
                     className='w-full group-hover:scale-150 transition delay-120'
