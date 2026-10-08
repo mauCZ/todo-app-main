@@ -21,6 +21,7 @@ function TaskCard({ handleDeleteTask, id, status, desc, handleOnChangeTask }) {
             >
                 {desc}
             </p>
+
             <button
                 onClick={() => handleDeleteTask(id)}
                 className='group relative cursor-pointer w-3 mr-6 my-4'
