@@ -3,6 +3,8 @@ import TaskList from './components/TaskList';
 import TaskCard from './components/TaskCard';
 import TaskFilters from './components/TaskFilters';
 import TaskCreator from './components/TaskCreator';
+import { ThemeContext } from './contexts/Contexts';
+import HeroBackground from './components/HeroBackground';
 
 function App() {
     const [tasks, setTasks] = useState([
@@ -12,11 +14,16 @@ function App() {
         { id: 4, desc: 'Pick up groceries', status: 'active' },
         { id: 5, desc: 'Complete school homework', status: 'active' },
     ]);
+    const [theme, setTheme] = useState('light');
     const refId = useRef(100);
     const inputRef = useRef(null);
     const dialogRef = useRef(null);
     const taskId = useRef(null);
     const [status, setStatus] = useState('all');
+
+    function toggleTheme() {
+        setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    }
 
     function filterTasks(filterStatus) {
         return tasks.filter((task) => task.status === filterStatus || status === 'all');
@@ -87,36 +94,36 @@ function App() {
     }, []);
 
     return (
-        <>
-            <dialog
-                className='w-xs rounded-sm bg-blue-950 p-5 m-auto backdrop:bg-black/60 backdrop:backdrop-blur-xs'
-                ref={dialogRef}
-            >
-                <p className='text-white font-semibold mb-6'>
-                    Are you sure you want to delete this task?
-                </p>
-                <div className='flex flex-row w-3/5 mx-auto justify-around'>
-                    <button
-                        className='cursor-pointer bg-red-700 text-white rounded-sm py-2 px-4 hover:bg-red-800'
-                        onClick={() => {
-                            dialogRef.current.close();
-                        }}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        className='cursor-pointer bg-green-700 text-white rounded-sm py-2 px-4 hover:bg-green-800'
-                        onClick={handleConfirmedDeleteTask}
-                    >
-                        Accept
-                    </button>
-                </div>
-            </dialog>
+        <ThemeContext.Provider value={theme}>
+            <main className='bg-blue-950 h-screen text-white'>
+                <dialog
+                    className='w-xs rounded-sm bg-blue-950 p-5 m-auto backdrop:bg-black/60 backdrop:backdrop-blur-xs'
+                    ref={dialogRef}
+                >
+                    <p className='text-white font-semibold mb-6'>
+                        Are you sure you want to delete this task?
+                    </p>
+                    <div className='flex flex-row w-3/5 mx-auto justify-around'>
+                        <button
+                            className='cursor-pointer bg-red-700 text-white rounded-sm py-2 px-4 hover:bg-red-800'
+                            onClick={() => {
+                                dialogRef.current.close();
+                            }}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            className='cursor-pointer bg-green-700 text-white rounded-sm py-2 px-4 hover:bg-green-800'
+                            onClick={handleConfirmedDeleteTask}
+                        >
+                            Accept
+                        </button>
+                    </div>
+                </dialog>
 
-            <main className='bg-blue-950 min-h-screen text-white'>
-                <div className='w-full h-48 absolute z-0 bg-no-repeat bg-cover bg-center bg-[url("assets/images/bg-mobile-dark.jpg")] sm:bg-[url("assets/images/bg-desktop-dark.jpg")] sm:h-64'></div>
+                <HeroBackground />
 
-                <TaskList status={status} setStatus={setStatus}>
+                <TaskList toggleTheme={toggleTheme} status={status} setStatus={setStatus}>
                     <TaskCreator ref={inputRef} />
 
                     <div className='divide-y divide-gray-700 rounded-t-sm bg-blue-900'>
@@ -152,11 +159,11 @@ function App() {
                     </div>
                 </TaskList>
 
-                <p className='w-full text-center absolute bottom-10 text-gray-600 text-lg'>
+                <p className='w-full text-center absolute bottom-4 text-gray-600 text-lg'>
                     Drag and Drop to reorder list
                 </p>
             </main>
-        </>
+        </ThemeContext.Provider>
     );
 }
 
