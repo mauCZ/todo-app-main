@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { DragDropProvider, useDroppable } from '@dnd-kit/react';
+import {isSortable} from '@dnd-kit/react/sortable';
 import TaskList from './components/TaskList';
 import TaskCard from './components/TaskCard';
 import TaskFilters from './components/TaskFilters';
@@ -6,7 +8,7 @@ import TaskCreator from './components/TaskCreator';
 import { ThemeContext } from './contexts/Contexts';
 import HeroBackground from './components/HeroBackground';
 
-function App() {
+function App({ id }) {
     const [tasks, setTasks] = useState([
         { id: 1, desc: 'Jog around the park 3x', status: 'active' },
         { id: 2, desc: '10 minutes meditation', status: 'active' },
@@ -20,6 +22,7 @@ function App() {
     const dialogRef = useRef(null);
     const taskId = useRef(null);
     const [status, setStatus] = useState('all');
+    const { droppableRef } = useDroppable({ id });
 
     function toggleTheme() {
         setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
@@ -123,41 +126,67 @@ function App() {
 
                 <HeroBackground />
 
-                <TaskList toggleTheme={toggleTheme} status={status} setStatus={setStatus}>
-                    <TaskCreator ref={inputRef} />
+                <DragDropProvider
+                    onDragEnd={(event) => {
+                        if(event.canceled) return;
+						
+						const {source} = event.operation;
+						
+						if(isSortable(source)){
+							const {initialIndex, index} = source;
+							console.log(initialIndex + " " + index);
+							
+							if(initialIndex !== index){
+								const newTasks = [...tasks];
+								const [removed] = newTasks.splice(initialIndex,1);
+								newTasks.splice(index, 0, removed);
+								setTasks(newTasks);
+							}
+						}
+                    }}
+                >
+                    <TaskList
+                        id={1}
+                        toggleTheme={toggleTheme}
+                        status={status}
+                        setStatus={setStatus}
+                    >
+                        <TaskCreator ref={inputRef} />
 
-                    <div className='divide-y divide-gray-700 rounded-t-sm bg-blue-900'>
-                        {filterTasks(status).map((task) => (
-                            <TaskCard
-                                handleOnChangeTask={handleOnChangeTask}
-                                id={task.id}
-                                key={task.id}
-                                status={task.status}
-                                desc={task.desc}
-                                handleDeleteTask={handleDeleteTask}
+                        <div ref={droppableRef} className='divide-y divide-gray-700 rounded-t-sm'>
+                            {filterTasks(status).map((task, index) => (
+                                <TaskCard
+                                    handleOnChangeTask={handleOnChangeTask}
+                                    id={task.id}
+                                    index={index}
+                                    key={task.id}
+                                    status={task.status}
+                                    desc={task.desc}
+                                    handleDeleteTask={handleDeleteTask}
+                                />
+                            ))}
+                        </div>
+
+                        <div className='bg-blue-900 flex flex-row mb-6 relative border-t border-gray-700 rounded-b-sm'>
+                            <p className='text-center grow p-4 text-xs'>
+                                {getTasksLeftToDo()} items left
+                            </p>
+
+                            <TaskFilters
+                                status={status}
+                                handleOnClick={(e) => handleOnclick(e)}
+                                className='bg-blue-900 col-start-1 col-span-3 row-start-2 flex flex-row justify-center absolute top-20 w-full sm:relative sm:top-0 sm:w-50'
                             />
-                        ))}
-                    </div>
 
-                    <div className='bg-blue-900 flex flex-row mb-6 relative border-t border-gray-700 rounded-b-sm'>
-                        <p className='text-center grow p-4 text-xs'>
-                            {getTasksLeftToDo()} items left
-                        </p>
-
-                        <TaskFilters
-                            status={status}
-                            handleOnClick={(e) => handleOnclick(e)}
-                            className='bg-blue-900 col-start-1 col-span-3 row-start-2 flex flex-row justify-center absolute top-20 w-full sm:relative sm:top-0 sm:w-50'
-                        />
-
-                        <button
-                            onClick={handleOnClickClearTasks}
-                            className='grow p-4 col-start-3 text-center text-xs cursor-pointer hover:text-gray-400'
-                        >
-                            Clear Completed
-                        </button>
-                    </div>
-                </TaskList>
+                            <button
+                                onClick={handleOnClickClearTasks}
+                                className='grow p-4 col-start-3 text-center text-xs cursor-pointer hover:text-gray-400'
+                            >
+                                Clear Completed
+                            </button>
+                        </div>
+                    </TaskList>
+                </DragDropProvider>
 
                 <p className='w-full text-center absolute bottom-4 text-gray-600 text-lg'>
                     Drag and Drop to reorder list

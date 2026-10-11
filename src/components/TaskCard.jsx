@@ -1,8 +1,14 @@
 import crossSvg from '../assets/images/icon-cross.svg';
+import { useSortable } from '@dnd-kit/react/sortable';
 
-function TaskCard({ handleDeleteTask, id, status, desc, handleOnChangeTask }) {
+function TaskCard({ handleDeleteTask, id, index, status, desc, handleOnChangeTask }) {
+    const { ref } = useSortable({
+        id: `${id}`,
+        index,
+    });
+
     return (
-        <div className='flex flex-row'>
+        <div ref={ref} className='bg-blue-900 flex flex-row'>
             <div className='peer w-16 flex justify-center items-center'>
                 <input
                     onChange={(e) => handleOnChangeTask(e, id)}
