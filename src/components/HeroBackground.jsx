@@ -9,9 +9,7 @@ function HeroBackground() {
     const theme = useContext(ThemeContext);
 
     return (
-        <picture
-            className='w-full h-60 absolute z-0'
-        >
+        <picture className='w-full h-60 absolute z-0'>
             <source
                 media='(min-width: 640px)'
                 srcSet={theme === 'light' ? bgLightDesktop : bgDarkDesktop}

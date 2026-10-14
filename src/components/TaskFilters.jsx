@@ -4,7 +4,7 @@ function TaskFilters({ status, handleOnClick, className }) {
             <button
                 className={
                     status === 'all'
-                        ? 'p-3 cursor-pointer text-gray-500'
+                        ? 'p-3 cursor-pointer text-primary-blue'
                         : 'p-3 cursor-pointer hover:text-gray-400'
                 }
                 onClick={() => handleOnClick('all')}
@@ -14,7 +14,7 @@ function TaskFilters({ status, handleOnClick, className }) {
             <button
                 className={
                     status === 'active'
-                        ? 'p-3 cursor-pointer text-gray-500'
+                        ? 'p-3 cursor-pointer text-primary-blue'
                         : 'p-3 cursor-pointer hover:text-gray-400'
                 }
                 onClick={() => handleOnClick('active')}
@@ -24,7 +24,7 @@ function TaskFilters({ status, handleOnClick, className }) {
             <button
                 className={
                     status === 'completed'
-                        ? 'p-3 cursor-pointer text-gray-500'
+                        ? 'p-3 cursor-pointer text-primary-blue'
                         : 'p-3 cursor-pointer hover:text-gray-400'
                 }
                 onClick={() => handleOnClick('completed')}

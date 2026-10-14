@@ -1,1 +1,25 @@
 @import 'tailwindcss';
+@font-face {
+    font-family: 'Josefin Sans';
+    src: url('./assets/fonts/JosefinSans-VariableFont_wght.ttf') format('truetype');
+    font-weight: 400, 700;
+    font-display: swap;
+}
+
+@theme {
+    --color-navy-850: hsl(235, 19%, 35%);
+    --color-gray-50: hsl(0, 0%, 98%);
+    --color-gray-300: hsl(233, 11%, 84%);
+    --color-gray-600: hsl(236, 9%, 61%);
+    --color-purple-300: hsl(234, 39%, 85%);
+
+    --color-navy-950: hsl(235, 21%, 11%);
+    --color-navy-900: hsl(235, 24%, 19%);
+    --color-purple-100: hsl(236, 33%, 92%);
+    --color-purple-600: hsl(235, 16%, 43%);
+    --color-purple-700: hsl(233, 14%, 35%);
+    --color-purple-800: hsl(237, 14%, 26%);
+
+    --color-primary-blue: hsl(220, 98%, 61%);
+    --font-sans: 'Josefin Sans', sans-serif;
+}

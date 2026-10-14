@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { DragDropProvider, useDroppable } from '@dnd-kit/react';
-import {isSortable} from '@dnd-kit/react/sortable';
+import { isSortable } from '@dnd-kit/react/sortable';
 import TaskList from './components/TaskList';
 import TaskCard from './components/TaskCard';
 import TaskFilters from './components/TaskFilters';
@@ -61,8 +61,6 @@ function App({ id }) {
     function handleDeleteTask(id) {
         dialogRef.current.showModal();
         taskId.current = id;
-        // const newTasks = tasks.filter((task) => task.id !== id);
-        // setTasks(newTasks);
     }
 
     function handleConfirmedDeleteTask() {
@@ -98,17 +96,21 @@ function App({ id }) {
 
     return (
         <ThemeContext.Provider value={theme}>
-            <main className='bg-blue-950 h-screen text-white'>
+            <main
+                className={`min-h-screen pb-38 text-gray-50 ${theme === 'light' ? 'text-white bg-gray-50' : 'text-black bg-navy-950'}`}
+            >
                 <dialog
-                    className='w-xs rounded-sm bg-blue-950 p-5 m-auto backdrop:bg-black/60 backdrop:backdrop-blur-xs'
+                    className={`w-sm text-center rounded-sm py-4 px-1 m-auto backdrop:bg-black/60 backdrop:backdrop-blur-xs ${theme === 'light' ? 'bg-gray-100' : 'bg-navy-900'}`}
                     ref={dialogRef}
                 >
-                    <p className='text-white font-semibold mb-6'>
+                    <p
+                        className={`font-semibold mb-6 ${theme === 'light' ? 'text-navy-850' : 'text-gray-400'}`}
+                    >
                         Are you sure you want to delete this task?
                     </p>
                     <div className='flex flex-row w-3/5 mx-auto justify-around'>
                         <button
-                            className='cursor-pointer bg-red-700 text-white rounded-sm py-2 px-4 hover:bg-red-800'
+                            className='cursor-pointer bg-red-700 text-gray-50 rounded-sm py-2 px-4 hover:bg-red-800'
                             onClick={() => {
                                 dialogRef.current.close();
                             }}
@@ -116,7 +118,7 @@ function App({ id }) {
                             Cancel
                         </button>
                         <button
-                            className='cursor-pointer bg-green-700 text-white rounded-sm py-2 px-4 hover:bg-green-800'
+                            className='cursor-pointer bg-green-700 text-gray-50 rounded-sm py-2 px-4 hover:bg-green-800'
                             onClick={handleConfirmedDeleteTask}
                         >
                             Accept
@@ -128,21 +130,21 @@ function App({ id }) {
 
                 <DragDropProvider
                     onDragEnd={(event) => {
-                        if(event.canceled) return;
-						
-						const {source} = event.operation;
-						
-						if(isSortable(source)){
-							const {initialIndex, index} = source;
-							console.log(initialIndex + " " + index);
-							
-							if(initialIndex !== index){
-								const newTasks = [...tasks];
-								const [removed] = newTasks.splice(initialIndex,1);
-								newTasks.splice(index, 0, removed);
-								setTasks(newTasks);
-							}
-						}
+                        if (event.canceled) return;
+
+                        const { source } = event.operation;
+
+                        if (isSortable(source)) {
+                            const { initialIndex, index } = source;
+                            console.log(initialIndex + ' ' + index);
+
+                            if (initialIndex !== index) {
+                                const newTasks = [...tasks];
+                                const [removed] = newTasks.splice(initialIndex, 1);
+                                newTasks.splice(index, 0, removed);
+                                setTasks(newTasks);
+                            }
+                        }
                     }}
                 >
                     <TaskList
@@ -153,7 +155,10 @@ function App({ id }) {
                     >
                         <TaskCreator ref={inputRef} />
 
-                        <div ref={droppableRef} className='divide-y divide-gray-700 rounded-t-sm'>
+                        <div
+                            ref={droppableRef}
+                            className={`divide-y rounded-t-sm ${theme === 'light' ? 'divide-gray-300' : 'divide-purple-800'}`}
+                        >
                             {filterTasks(status).map((task, index) => (
                                 <TaskCard
                                     handleOnChangeTask={handleOnChangeTask}
@@ -167,7 +172,9 @@ function App({ id }) {
                             ))}
                         </div>
 
-                        <div className='bg-blue-900 flex flex-row mb-6 relative border-t border-gray-700 rounded-b-sm'>
+                        <div
+                            className={`border-t border-gra flex flex-row mb-6 font-semibold relative rounded-b-sm ${theme === 'light' ? 'bg-white text-gray-300 border-gray-300' : 'bg-navy-900 text-purple-700 border-purple-800'}`}
+                        >
                             <p className='text-center grow p-4 text-xs'>
                                 {getTasksLeftToDo()} items left
                             </p>
@@ -175,7 +182,7 @@ function App({ id }) {
                             <TaskFilters
                                 status={status}
                                 handleOnClick={(e) => handleOnclick(e)}
-                                className='bg-blue-900 col-start-1 col-span-3 row-start-2 flex flex-row justify-center absolute top-20 w-full sm:relative sm:top-0 sm:w-50'
+                                className={`col-start-1 col-span-3 row-start-2 flex flex-row justify-center absolute top-20 w-full sm:relative sm:top-0 sm:w-50 ${theme === 'light' ? 'bg-white shadow-md' : 'bg-navy-900 shadow-md'}`}
                             />
 
                             <button
@@ -188,7 +195,9 @@ function App({ id }) {
                     </TaskList>
                 </DragDropProvider>
 
-                <p className='w-full text-center absolute bottom-4 text-gray-600 text-lg'>
+                <p
+                    className={`${theme === 'light' ? 'bg-gray-50' : 'bg-navy-950'} w-full text-center fixed bottom-0 text-gray-600 text-lg z-2`}
+                >
                     Drag and Drop to reorder list
                 </p>
             </main>

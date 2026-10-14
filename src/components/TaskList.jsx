@@ -7,7 +7,7 @@ function TaskList({ toggleTheme, children }) {
     const theme = useContext(ThemeContext);
 
     return (
-        <div className='w-xs mx-auto z-1 relative sm:w-lg top-12'>
+        <div className='w-xs mx-auto z-1 relative sm:w-lg top-12 shadow-2xl'>
             <div className='flex flex-row justify-between'>
                 <h1 className='text-4xl font-bold tracking-[0.8rem]'>TODO</h1>
 
