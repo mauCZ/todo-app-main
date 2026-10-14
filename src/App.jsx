@@ -9,13 +9,7 @@ import { ThemeContext } from './contexts/Contexts';
 import HeroBackground from './components/HeroBackground';
 
 function App({ id }) {
-    const [tasks, setTasks] = useState([
-        { id: 1, desc: 'Jog around the park 3x', status: 'active' },
-        { id: 2, desc: '10 minutes meditation', status: 'active' },
-        { id: 3, desc: 'Read for 1 hour', status: 'active' },
-        { id: 4, desc: 'Pick up groceries', status: 'active' },
-        { id: 5, desc: 'Complete school homework', status: 'active' },
-    ]);
+    const [tasks, setTasks] = useState([]);
     const [theme, setTheme] = useState('light');
     const refId = useRef(100);
     const inputRef = useRef(null);

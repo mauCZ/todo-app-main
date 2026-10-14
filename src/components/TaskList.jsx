@@ -12,7 +12,7 @@ function TaskList({ toggleTheme, children }) {
                 <h1 className='text-4xl font-bold tracking-[0.8rem]'>TODO</h1>
 
                 <button onClick={() => toggleTheme()} className='cursor-pointer hover:scale-110'>
-                    <img src={theme === 'light' ? iconSun : iconMoon} alt='theme toggle' />
+                    <img src={theme === 'light' ? iconMoon : iconSun} alt='theme toggle' />
                 </button>
             </div>
             <ul>{children}</ul>
